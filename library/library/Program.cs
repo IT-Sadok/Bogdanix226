@@ -31,11 +31,14 @@ internal class Program
                 Console.WriteLine("Enter the name or author of book");
                 break;
             case 4:
-                var book =FileManager.ReadInfo();
-                Console.WriteLine(book.name);
-                Console.WriteLine(book.author);
-                Console.WriteLine(book.year);
-                Console.WriteLine(book.id);
+                var books =FileManager.ReadInfo();
+                foreach (var book in books)
+                {
+                    Console.WriteLine(book.name);
+                    Console.WriteLine(book.author);
+                    Console.WriteLine(book.year);
+                    Console.WriteLine(book.id);
+                }
                 break;
             case 5:
                 break;

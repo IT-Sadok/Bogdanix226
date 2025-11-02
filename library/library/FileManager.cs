@@ -7,23 +7,24 @@ namespace library;
 public class FileManager
 {
     private static string _filepath = "books.json";
-    public static void SaveInfo(bookInfo bookInfo)
+    public static void SaveInfo(List<bookInfo> bookInfo)
     {
+        
         var json = JsonSerializer.Serialize(bookInfo);
         File.WriteAllText(_filepath, json);
     }
     
-    public static bookInfo ReadInfo()
+    public static List<bookInfo> ReadInfo()
     {
         if (!File.Exists(_filepath))
         {
             Console.WriteLine("File not found");
-            return null;
+            return new List<bookInfo>();
         }
         
         var jsonText = File.ReadAllText(_filepath);
-        var book = JsonSerializer.Deserialize<bookInfo>(jsonText);
+        var books = JsonSerializer.Deserialize<List<bookInfo>>(jsonText);
            
-        return book;
+        return books;
     }
 }

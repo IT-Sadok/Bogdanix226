@@ -4,8 +4,10 @@ namespace library;
 
 public class BookInfoMethods
 {
-    public static bookInfo GetBookInfo()
+    public static  bookInfo GetBookInfo()
     {
+        var books = FileManager.ReadInfo();
+        
         bookInfo book = new bookInfo();
             
         Console.WriteLine("Enter the name of book:");
@@ -16,10 +18,11 @@ public class BookInfoMethods
         book.year = Convert.ToInt16(Console.ReadLine());
         Console.WriteLine("Enter the id of book:");
         book.id = Convert.ToInt16(Console.ReadLine());
-     
-        FileManager.SaveInfo(book);
-        
+        books.Add(book);
+
+        FileManager.SaveInfo(books);
         return book;
+
     }
 
    
