@@ -1,4 +1,5 @@
-﻿using library;
+﻿using System.Text.Json;
+using library;
 
 
 internal class Program
@@ -21,7 +22,7 @@ internal class Program
          {
             
             case 1:
-                GetBookInfo();
+                BookInfoMethods.GetBookInfo();
                 break;
             case 2:
                 Console.WriteLine("Enter id");
@@ -30,6 +31,11 @@ internal class Program
                 Console.WriteLine("Enter the name or author of book");
                 break;
             case 4:
+                var book =FileManager.ReadInfo();
+                Console.WriteLine(book.name);
+                Console.WriteLine(book.author);
+                Console.WriteLine(book.year);
+                Console.WriteLine(book.id);
                 break;
             case 5:
                 break;
@@ -37,27 +43,10 @@ internal class Program
                 break;
             default:
                 Console.WriteLine("Invalid choice. Please select from 1 to 6.");
+                
                 break;
          }
         
-        
-        
-        static bookInfo GetBookInfo()
-        {
-            bookInfo book = new bookInfo();
-            
-            Console.WriteLine("Enter the name of book:");
-            book.name = Convert.ToString(Console.ReadLine());
-            Console.WriteLine("Enter the author of book:");
-            book.author = Convert.ToString(Console.ReadLine());
-            Console.WriteLine("Enter the year of book release:");
-            book.year = Convert.ToInt16(Console.ReadLine());
-            Console.WriteLine("Enter the id of book:");
-            book.id = Convert.ToInt16(Console.ReadLine());
-     
-            return book;
-        }
-
 
     }
 }

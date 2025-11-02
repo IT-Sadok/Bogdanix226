@@ -3,11 +3,10 @@ namespace library;
 
 public class bookInfo
 {
-
-    public int id;
-    public string name;
-    public string author;
-    public int year;
+    public string name { get; set; }
+    public string author { get; set; }
+    public int year { get; set; }
+    public int id { get; set; }
     
 }
 
