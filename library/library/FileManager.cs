@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace library;
 
@@ -14,8 +15,15 @@ public class FileManager
     
     public static bookInfo ReadInfo()
     {
+        if (!File.Exists(_filepath))
+        {
+            Console.WriteLine("File not found");
+            return null;
+        }
+        
         var jsonText = File.ReadAllText(_filepath);
         var book = JsonSerializer.Deserialize<bookInfo>(jsonText);
+           
         return book;
     }
 }
