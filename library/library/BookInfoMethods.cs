@@ -1,30 +1,23 @@
-﻿using System.Globalization;
-
-namespace library;
+﻿namespace library;
 
 public class BookInfoMethods
 {
-    public static  bookInfo GetBookInfo()
+    public static bookInfo GetBookInfo()
     {
-        var books = FileManager.ReadInfo();
-        
         bookInfo book = new bookInfo();
-            
-        Console.WriteLine("Enter the name of book:");
-        book.name = Convert.ToString(Console.ReadLine());
-        Console.WriteLine("Enter the author of book:");
-        book.author = Convert.ToString(Console.ReadLine());
-        Console.WriteLine("Enter the year of book release:");
+
+        Console.Write("Enter the name: ");
+        book.name = Console.ReadLine();
+
+        Console.Write("Enter the author: ");
+        book.author = Console.ReadLine();
+
+        Console.Write("Enter year: ");
         book.year = Convert.ToInt16(Console.ReadLine());
-        Console.WriteLine("Enter the id of book:");
-        book.id = Convert.ToInt16(Console.ReadLine());
-        books.Add(book);
 
-        FileManager.SaveInfo(books);
+        Console.Write("Enter ID: ");
+        book.id = Convert.ToUInt16(Console.ReadLine());
+
         return book;
-
     }
-
-   
-
 }
