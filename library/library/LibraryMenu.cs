@@ -1,16 +1,15 @@
-﻿using library;
+﻿using System;
+using library;
 
 namespace library;
 
 public class LibraryMenu
 {
-    private readonly ILibraryService _library;
-    private readonly IBookInfoMethods _bookInfoMethods;
+    private  ILibraryService _library;
 
-    public LibraryMenu(ILibraryService library, IBookInfoMethods bookInfoMethods)
+    public LibraryMenu(ILibraryService library)
     {
         _library = library;
-        _bookInfoMethods = bookInfoMethods;
     }
 
     public void Start()
@@ -31,7 +30,7 @@ public class LibraryMenu
             switch (choice)
             {
                 case 1:
-                    AddBook();
+                    _library.AddBook();
                     break;
                 case 2:
                     DeleteBook(); 
@@ -54,17 +53,16 @@ public class LibraryMenu
             }
         }
     }
-
-    private void AddBook()
-    {
-        var newBook = _bookInfoMethods.GetBookInfo();
-        _library.AddBook(newBook);
-    }
+    
 
     private void DeleteBook()
     {
         Console.Write("Enter book ID to delete: ");
-        int id = Convert.ToUInt16(Console.ReadLine());
+        if (!int.TryParse(Console.ReadLine(), out int id))
+        {
+            Console.WriteLine("Invalid number!");
+            return;
+        }
 
         Console.WriteLine(_library.DeleteBook(id) ? "Book deleted." : "Book not found.");
     }
@@ -99,7 +97,13 @@ public class LibraryMenu
     private void BorrowBook()
     {
         Console.Write("Enter ID to borrow: ");
-        int id = Convert.ToUInt16(Console.ReadLine());
+        
+        if (!int.TryParse(Console.ReadLine(), out int id))
+        {
+            Console.WriteLine("Invalid number!");
+            return;
+        }
+        
         Console.WriteLine(_library.BorrowBook(id) ? "Book borrowed!" : "Cannot borrow this book.");
     }
 
@@ -112,10 +116,10 @@ public class LibraryMenu
 
     private void PrintBook(BookInfo book)
     {
-        Console.WriteLine($"Name: {book.name}");
-        Console.WriteLine($"Author: {book.author}");
-        Console.WriteLine($"Year: {book.year}");
-        Console.WriteLine($"ID: {book.id}");
+        Console.WriteLine($"Name: {book.Name}");
+        Console.WriteLine($"Author: {book.Author}");
+        Console.WriteLine($"Year: {book.Year}");
+        Console.WriteLine($"ID: {book.Id}");
         Console.WriteLine($"Status: {(book.IsBorrowed ? "Borrowed" : "Available")}");
     }
 }

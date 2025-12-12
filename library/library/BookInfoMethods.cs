@@ -1,22 +1,22 @@
 ﻿namespace library;
 
-public class BookInfoMethods: IBookInfoMethods
+public class BookInfoMethods
 {
     public  BookInfo GetBookInfo()
     {
         BookInfo book = new BookInfo();
 
         Console.Write("Enter the name: ");
-        book.name = Console.ReadLine();
+        book.Name = Console.ReadLine();
 
         Console.Write("Enter the author: ");
-        book.author = Console.ReadLine();
+        book.Author = Console.ReadLine();
 
         Console.Write("Enter year: ");
-        book.year = Convert.ToInt16(Console.ReadLine());
+        book.Year = Convert.ToInt16(Console.ReadLine());
 
         Console.Write("Enter ID: ");
-        book.id = Convert.ToUInt16(Console.ReadLine());
+        book.Id = Convert.ToUInt16(Console.ReadLine());
 
         return book;
     }

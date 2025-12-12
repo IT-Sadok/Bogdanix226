@@ -2,7 +2,7 @@
 
 public interface ILibraryService
 {
-    void AddBook(BookInfo book);
+    void AddBook();
     List<BookInfo> GetAllBooks();
     BookInfo FindBook(string query);
     bool DeleteBook(int id);

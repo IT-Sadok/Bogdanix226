@@ -6,9 +6,8 @@ internal class Program
     {
         IFileManager fileManager = new FileManager();
         ILibraryService libraryService = new LibraryService(fileManager);
-        IBookInfoMethods bookInfoMethods = new BookInfoMethods();
 
-        LibraryMenu menu = new LibraryMenu(libraryService, bookInfoMethods);
+        LibraryMenu menu = new LibraryMenu(libraryService);
         menu.Start();
     }
 }
