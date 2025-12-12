@@ -1,6 +1,6 @@
 ﻿namespace library;
 
-public class bookInfo
+public class BookInfo
 {
     public string name { get; set; }
     public string author { get; set; }

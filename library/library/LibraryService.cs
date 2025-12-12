@@ -2,25 +2,25 @@
 
 public class LibraryService
 {
-    private List<bookInfo> _books;
+    private List<BookInfo> _books;
 
     public LibraryService()
     {
         _books = FileManager.ReadInfo();
     }
 
-    public void AddBook(bookInfo book)
+    public void AddBook(BookInfo book)
     {
         _books.Add(book);
         FileManager.SaveInfo(_books);
     }
 
-    public List<bookInfo> GetAllBooks()
+    public List<BookInfo> GetAllBooks()
     {
-        return _books;
+        return _books.ToList();
     }
 
-    public bookInfo FindBook(string query)
+    public BookInfo FindBook(string query)
     {
         return _books.FirstOrDefault(b =>
             b.name.Contains(query, StringComparison.OrdinalIgnoreCase) ||

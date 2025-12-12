@@ -2,9 +2,9 @@
 
 public class BookInfoMethods
 {
-    public static bookInfo GetBookInfo()
+    public static BookInfo GetBookInfo()
     {
-        bookInfo book = new bookInfo();
+        BookInfo book = new BookInfo();
 
         Console.Write("Enter the name: ");
         book.name = Console.ReadLine();
