@@ -2,11 +2,13 @@
 
 internal class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
-        LibraryService library = new LibraryService();
-        LibraryMenu menu = new LibraryMenu(library);
+        IFileManager fileManager = new FileManager();
+        ILibraryService libraryService = new LibraryService(fileManager);
+        IBookInfoMethods bookInfoMethods = new BookInfoMethods();
 
+        LibraryMenu menu = new LibraryMenu(libraryService, bookInfoMethods);
         menu.Start();
     }
 }

@@ -1,12 +1,16 @@
-﻿using System;
-using library;
+﻿using library;
+
+namespace library;
+
 public class LibraryMenu
 {
-    private readonly LibraryService _library;
+    private readonly ILibraryService _library;
+    private readonly IBookInfoMethods _bookInfoMethods;
 
-    public LibraryMenu(LibraryService library)
+    public LibraryMenu(ILibraryService library, IBookInfoMethods bookInfoMethods)
     {
         _library = library;
+        _bookInfoMethods = bookInfoMethods;
     }
 
     public void Start()
@@ -21,7 +25,6 @@ public class LibraryMenu
             Console.WriteLine("5. Borrow a book");
             Console.WriteLine("6. Return the book");
             Console.WriteLine("0. Exit");
-            Console.Write("> ");
 
             int choice = Convert.ToUInt16(Console.ReadLine());
 
@@ -30,32 +33,23 @@ public class LibraryMenu
                 case 1:
                     AddBook();
                     break;
-
                 case 2:
-                    DeleteBook();
+                    DeleteBook(); 
                     break;
-
                 case 3:
-                    SearchBook();
+                    SearchBook(); 
                     break;
-
-                case 4:
+                case 4: 
                     ShowAllBooks();
                     break;
-
                 case 5:
                     BorrowBook();
                     break;
-
                 case 6:
                     ReturnBook();
                     break;
-
-                case 0:
-                    return;
-
-                default:
-                    Console.WriteLine("Invalid choice!");
+                
+                default: Console.WriteLine("Invalid choice!"); 
                     break;
             }
         }
@@ -63,7 +57,7 @@ public class LibraryMenu
 
     private void AddBook()
     {
-        var newBook = BookInfoMethods.GetBookInfo();
+        var newBook = _bookInfoMethods.GetBookInfo();
         _library.AddBook(newBook);
     }
 
@@ -71,17 +65,16 @@ public class LibraryMenu
     {
         Console.Write("Enter book ID to delete: ");
         int id = Convert.ToUInt16(Console.ReadLine());
-        Console.WriteLine(_library.DeleteBook(id)
-            ? "Book deleted."
-            : "Book not found.");
+
+        Console.WriteLine(_library.DeleteBook(id) ? "Book deleted." : "Book not found.");
     }
 
     private void SearchBook()
     {
         Console.Write("Enter book name or author: ");
-        string query = Console.ReadLine();
+        string q = Console.ReadLine();
 
-        var found = _library.FindBook(query);
+        var found = _library.FindBook(q);
 
         if (found == null)
             Console.WriteLine("Book not found.");
@@ -93,7 +86,7 @@ public class LibraryMenu
     {
         var books = _library.GetAllBooks();
 
-        if (books.Count == 0)
+        if (!books.Any())
         {
             Console.WriteLine("No books available.");
             return;
@@ -107,18 +100,14 @@ public class LibraryMenu
     {
         Console.Write("Enter ID to borrow: ");
         int id = Convert.ToUInt16(Console.ReadLine());
-        Console.WriteLine(_library.BorrowBook(id)
-            ? "Book borrowed!"
-            : "Cannot borrow this book.");
+        Console.WriteLine(_library.BorrowBook(id) ? "Book borrowed!" : "Cannot borrow this book.");
     }
 
     private void ReturnBook()
     {
         Console.Write("Enter ID to return: ");
         int id = Convert.ToUInt16(Console.ReadLine());
-        Console.WriteLine(_library.ReturnBook(id)
-            ? "Book returned!"
-            : "Cannot return this book.");
+        Console.WriteLine(_library.ReturnBook(id) ? "Book returned!" : "Cannot return this book.");
     }
 
     private void PrintBook(BookInfo book)

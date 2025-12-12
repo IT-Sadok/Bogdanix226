@@ -2,24 +2,22 @@
 
 namespace library;
 
-public class FileManager
+public class FileManager : IFileManager
 {
-    private static string _filepath = "books.json";
+    private readonly string _filepath = "books.json";
 
-    public static void SaveInfo(List<BookInfo> books)
+    public void SaveInfo(List<BookInfo> books)
     {
         var json = JsonSerializer.Serialize(books, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(_filepath, json);
     }
 
-    public static List<BookInfo> ReadInfo()
+    public List<BookInfo> ReadInfo()
     {
         if (!File.Exists(_filepath))
             return new List<BookInfo>();
 
         string json = File.ReadAllText(_filepath);
-
-        return JsonSerializer.Deserialize<List<BookInfo>>(json) 
-               ?? new List<BookInfo>();
+        return JsonSerializer.Deserialize<List<BookInfo>>(json) ?? new List<BookInfo>();
     }
 }

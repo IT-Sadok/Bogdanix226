@@ -1,24 +1,23 @@
 ﻿namespace library;
 
-public class LibraryService
+public class LibraryService : ILibraryService
 {
-    private List<BookInfo> _books;
+    private  IFileManager _fileManager;
+    private  List<BookInfo> _books;
 
-    public LibraryService()
+    public LibraryService(IFileManager fileManager)
     {
-        _books = FileManager.ReadInfo();
+        _fileManager = fileManager;
+        _books = fileManager.ReadInfo();
     }
 
     public void AddBook(BookInfo book)
     {
         _books.Add(book);
-        FileManager.SaveInfo(_books);
+        _fileManager.SaveInfo(_books);
     }
 
-    public List<BookInfo> GetAllBooks()
-    {
-        return _books.ToList();
-    }
+    public List<BookInfo> GetAllBooks() => _books.ToList();
 
     public BookInfo FindBook(string query)
     {
@@ -33,7 +32,7 @@ public class LibraryService
         if (book == null) return false;
 
         _books.Remove(book);
-        FileManager.SaveInfo(_books);
+        _fileManager.SaveInfo(_books);
         return true;
     }
 
@@ -43,17 +42,18 @@ public class LibraryService
         if (book == null || book.IsBorrowed) return false;
 
         book.IsBorrowed = true;
-        FileManager.SaveInfo(_books);
+        _fileManager.SaveInfo(_books);
         return true;
     }
 
     public bool ReturnBook(int id)
     {
         var book = _books.FirstOrDefault(b => b.id == id);
-        if (book == null || !book.IsBorrowed) return false;
+        if (book == null || !book.IsBorrowed)
+            return false;
 
         book.IsBorrowed = false;
-        FileManager.SaveInfo(_books);
+        _fileManager.SaveInfo(_books);
         return true;
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace library;
 
-public class BookInfoMethods
+public class BookInfoMethods: IBookInfoMethods
 {
-    public static BookInfo GetBookInfo()
+    public  BookInfo GetBookInfo()
     {
         BookInfo book = new BookInfo();
 
