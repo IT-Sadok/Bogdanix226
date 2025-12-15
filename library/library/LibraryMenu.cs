@@ -70,9 +70,9 @@ public class LibraryMenu
     private void SearchBook()
     {
         Console.Write("Enter book name or author: ");
-        string q = Console.ReadLine();
+        string query = Console.ReadLine();
 
-        var found = _library.FindBook(q);
+        var found = _library.FindBook(query);
 
         if (found == null)
             Console.WriteLine("Book not found.");

@@ -13,7 +13,8 @@ public class LibraryService : ILibraryService
 
     public void AddBook()
     {
-        BookInfo book = GetBookInfoFromUser(); 
+        BookInfo book = GetBookInfoFromUser();
+        book.Id = _books.Any() ? _books.Max(b => b.Id) + 1 : 1; 
         _books.Add(book);
         _fileManager.SaveInfo(_books);
     }
@@ -35,48 +36,37 @@ public class LibraryService : ILibraryService
 
     public bool DeleteBook(int id)
     {
-        for (int i = 0; i < _books.Count; i++)
-        {
-            if (_books[i].Id == id)
-            {
-                _books.RemoveAt(i);
-                _fileManager.SaveInfo(_books);
-                return true;
-            }
-        }
-        return false;
+        var book = _books.FirstOrDefault(b => b.Id == id);
+        if (book == null) return false;
+
+        _books.Remove(book);
+        _fileManager.SaveInfo(_books);
+        return true;
     }
 
     public bool BorrowBook(int id)
     {
-        for (int i = 0; i < _books.Count; i++)
-        {
-            if (_books[i].Id == id && !_books[i].IsBorrowed)
-            {
-                _books[i].IsBorrowed = true;
-                _fileManager.SaveInfo(_books);
-                return true;
-            }
-        }
-        return false;
+        var book = _books.FirstOrDefault(b => b.Id == id && !b.IsBorrowed);
+        if (book == null) return false;
+
+        book.IsBorrowed = true;
+        _fileManager.SaveInfo(_books);
+        return true;
     }
 
     public bool ReturnBook(int id)
     {
-        for (int i = 0; i < _books.Count; i++)
-        {
-            if (_books[i].Id == id && _books[i].IsBorrowed)
-            {
-                _books[i].IsBorrowed = false;
-                _fileManager.SaveInfo(_books);
-                return true;
-            }
-        }
-        return false;
+        var book = _books.FirstOrDefault(b => b.Id == id && b.IsBorrowed);
+        if (book == null) return false;
+
+        book.IsBorrowed = false;
+        _fileManager.SaveInfo(_books);
+        return true;
     }
 
     private BookInfo GetBookInfoFromUser()
     {
+    
         BookInfo book = new BookInfo();
 
         Console.Write("Enter book name: ");
@@ -92,14 +82,6 @@ public class LibraryService : ILibraryService
             Console.Write("Invalid year. Enter again: ");
         }
         book.Year = year;
-
-        Console.Write("Enter ID: ");
-        int id;
-        while(!int.TryParse(Console.ReadLine(), out id))
-        {
-            Console.Write("Invalid ID. Enter again: ");
-        }
-        book.Id = id;
 
         return book;
     }

@@ -1,9 +1,10 @@
 ﻿namespace library;
 
-public class BookInfoMethods
+public class InputBookInfo
 {
     public  BookInfo GetBookInfo()
     {
+        
         BookInfo book = new BookInfo();
 
         Console.Write("Enter the name: ");
