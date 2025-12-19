@@ -23,16 +23,11 @@ public class LibraryService : ILibraryService
 
     public BookInfo FindBook(string query)
     {
-        foreach (var b in _books)
-        {
-            if (b.Name.ToLower().Contains(query.ToLower()) ||
-                b.Author.ToLower().Contains(query.ToLower()))
-            {
-                return b;
-            }
-        }
-        return null;
+        return _books.FirstOrDefault(b =>
+            b.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+            b.Author.Contains(query, StringComparison.OrdinalIgnoreCase));
     }
+
 
     public bool DeleteBook(int id)
     {
