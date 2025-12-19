@@ -20,12 +20,6 @@ public class InputBookInfo
             Console.Write("Invalid year. Enter again: ");
         book.Year = year;
 
-        int id;
-        Console.Write("Enter ID: ");
-        while (!int.TryParse(Console.ReadLine(), out id))
-            Console.Write("Invalid ID. Enter again: ");
-        book.Id = id;
-
         return book;
     }
 }

@@ -4,16 +4,18 @@ public class LibraryService : ILibraryService
 {
     private IFileManager _fileManager;
     private List<BookInfo> _books;
+    private InputBookInfo _inputBookInfo;
 
     public LibraryService(IFileManager fileManager)
     {
         _fileManager = fileManager;
         _books = _fileManager.ReadInfo();
+        _inputBookInfo = new InputBookInfo();
     }
 
     public void AddBook()
     {
-        BookInfo book = GetBookInfoFromUser();
+        BookInfo book = _inputBookInfo.GetBookInfo();
         book.Id = _books.Any() ? _books.Max(b => b.Id) + 1 : 1; 
         _books.Add(book);
         _fileManager.SaveInfo(_books);
@@ -60,26 +62,5 @@ public class LibraryService : ILibraryService
         _fileManager.SaveInfo(_books);
         return true;
     }
-
-    private BookInfo GetBookInfoFromUser()
-    {
     
-        BookInfo book = new BookInfo();
-
-        Console.Write("Enter book name: ");
-        book.Name = Console.ReadLine();
-
-        Console.Write("Enter author: ");
-        book.Author = Console.ReadLine();
-
-        Console.Write("Enter year: ");
-        int year;
-        while(!int.TryParse(Console.ReadLine(), out year))
-        {
-            Console.Write("Invalid year. Enter again: ");
-        }
-        book.Year = year;
-
-        return book;
-    }
 }
