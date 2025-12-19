@@ -46,20 +46,22 @@ public class LibraryService : ILibraryService
 
     public bool BorrowBook(int id)
     {
-        var book = _books.FirstOrDefault(b => b.Id == id && !b.IsBorrowed);
+        var book = _books.FirstOrDefault(b => b.Id == id && b.Status == BookStatus.Available);
         if (book == null) return false;
 
-        book.IsBorrowed = true;
+        book.Status = BookStatus.Borrowed;
+
         _fileManager.SaveInfo(_books);
         return true;
     }
 
     public bool ReturnBook(int id)
     {
-        var book = _books.FirstOrDefault(b => b.Id == id && b.IsBorrowed);
+        var book = _books.FirstOrDefault(b => b.Id == id && b.Status == BookStatus.Borrowed);
         if (book == null) return false;
 
-        book.IsBorrowed = false;
+        book.Status = BookStatus.Available;
+
         _fileManager.SaveInfo(_books);
         return true;
     }

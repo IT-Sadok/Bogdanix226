@@ -120,6 +120,6 @@ public class LibraryMenu
         Console.WriteLine($"Author: {book.Author}");
         Console.WriteLine($"Year: {book.Year}");
         Console.WriteLine($"ID: {book.Id}");
-        Console.WriteLine($"Status: {(book.IsBorrowed ? "Borrowed" : "Available")}");
+        Console.WriteLine($"Status: {book.Status}");
     }
 }

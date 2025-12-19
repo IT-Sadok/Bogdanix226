@@ -6,5 +6,6 @@ public class BookInfo
     public string Author { get; set; }
     public int Year { get; set; }
     public int Id { get; set; }
-    public bool IsBorrowed { get; set; } = false;
+    public BookStatus Status { get; set; } = BookStatus.Available;
+
 }
