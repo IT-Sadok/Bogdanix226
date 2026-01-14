@@ -23,6 +23,7 @@ public class LibraryMenu
             Console.WriteLine("4. Show all books");
             Console.WriteLine("5. Borrow a book");
             Console.WriteLine("6. Return the book");
+            Console.WriteLine("7. Run concurrency simulation");
             Console.WriteLine("0. Exit");
 
             int choice = Convert.ToUInt16(Console.ReadLine());
@@ -47,6 +48,9 @@ public class LibraryMenu
                 case 6:
                     ReturnBook();
                     break;
+                case 7:
+                    _library.SimulateConcurrentUpdates();
+                    break;
                 
                 default: Console.WriteLine("Invalid choice!"); 
                     break;
@@ -54,7 +58,6 @@ public class LibraryMenu
         }
     }
     
-
     private void DeleteBook()
     {
         Console.Write("Enter book ID to delete: ");
