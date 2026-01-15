@@ -7,7 +7,7 @@ internal class Program
         IFileManager fileManager = new FileManager();
         ILibraryService libraryService = new LibraryService(fileManager);
 
-        libraryService.SimulateConcurrentUpdates();
+        libraryService.SimulateConcurrentUpdatesAsync().Wait();
         
         LibraryMenu menu = new LibraryMenu(libraryService);
         menu.Start();

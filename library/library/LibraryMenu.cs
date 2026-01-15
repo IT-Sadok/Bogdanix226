@@ -49,7 +49,7 @@ public class LibraryMenu
                     ReturnBook();
                     break;
                 case 7:
-                    _library.SimulateConcurrentUpdates();
+                    _library.SimulateConcurrentUpdatesAsync();
                     break;
                 
                 default: Console.WriteLine("Invalid choice!"); 
@@ -70,6 +70,7 @@ public class LibraryMenu
         Console.WriteLine(_library.DeleteBook(id) ? "Book deleted." : "Book not found.");
     }
 
+    
     private void SearchBook()
     {
         Console.Write("Enter book name or author: ");
