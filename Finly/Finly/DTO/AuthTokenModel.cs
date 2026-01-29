@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Finly.DTO;
 
-public class AuthModel
+public class AuthTokenModel
 {
     public string AccessToken { get; set; }
 }

@@ -10,7 +10,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
-        Database.Migrate();
+        
     }
 
     public DbSet<Account> Accounts => Set<Account>();

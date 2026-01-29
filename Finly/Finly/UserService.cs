@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Finly;
 
-public class UserService : IUserService       
+public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly IJWTService _jwtService;
@@ -14,35 +14,31 @@ public class UserService : IUserService
         _userManager = userManager;
         _jwtService = jwtService;
     }
-    
-    public async Task<AuthModel> RegisterUserAsync(CreateUserModel model)
-    {
-        await _userManager.CreateAsync(new User
-        {
 
-            Account = new Account()
+    public async Task<AuthTokenModel> RegisterUserAsync(CreateUserModel model)
+    {
+        var user = new User
+        {
+            UserName = model.UserName,
+            Email = model.Email,
+            Account = new Account
             {
                 DateCreated = DateTime.UtcNow,
                 Description = model.AccountDescription
-            },
+            }
+        };
 
-            UserName = model.UserName,
-            Email = model.Email
-        }, model.Password);
+        var result = await _userManager.CreateAsync(user, model.Password);
 
-        return new AuthModel
+        if (!result.Succeeded)
         {
-            AccessToken = _jwtService.JwtGenerate(model.UserName)
+            throw new Exception(string.Join(", ",
+                result.Errors.Select(e => e.Description)));
+        }
+
+        return new AuthTokenModel
+        {
+            AccessToken = _jwtService.GenerateJwt(user)
         };
     }
-    
-}
-
-
-public interface IUserService
-{
-    Task<AuthModel> RegisterUserAsync(CreateUserModel model);
-    
-    
-    
 }
