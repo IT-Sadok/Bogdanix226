@@ -20,6 +20,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentityConfiguration();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
