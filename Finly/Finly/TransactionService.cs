@@ -14,10 +14,13 @@ public class TransactionService : ITransactionService
         _context = context;
     }
 
-    public async Task AddTransactionAsync(CreateTransactionModel model, int userId)
+    public async Task AddTransactionAsync(
+        CreateTransactionModel model,
+        int userId,
+        CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
-            .FirstOrDefaultAsync(a => a.UserId == userId);
+            .FirstOrDefaultAsync(a => a.UserId == userId, cancellationToken);
 
         if (account == null)
             throw new Exception("Account not found");
@@ -31,29 +34,40 @@ public class TransactionService : ITransactionService
             AccountId = account.Id
         };
 
-        _context.Transactions.Add(transaction);
-        await _context.SaveChangesAsync();
+        await _context.Transactions.AddAsync(transaction, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteTransactionAsync(int transactionId, int userId)
+
+    public async Task DeleteTransactionAsync(
+        int transactionId,
+        int userId,
+        CancellationToken cancellationToken)
     {
         var transaction = await _context.Transactions
             .Include(t => t.Account)
             .FirstOrDefaultAsync(t =>
-                t.Id == transactionId &&
-                t.Account.UserId == userId);
+                    t.Id == transactionId &&
+                    t.Account.UserId == userId,
+                cancellationToken);
 
         if (transaction == null)
             throw new Exception("Transaction not found");
 
         _context.Transactions.Remove(transaction);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<TransactionHistoryModel>> GetHistoryAsync(int userId)
+
+    public async Task<List<TransactionHistoryModel>> GetHistoryAsync(
+        int userId,
+        DateTime fromDate,
+        CancellationToken cancellationToken)
     {
         return await _context.Transactions
-            .Where(t => t.Account.UserId == userId)
+            .Where(t =>
+                t.Account.UserId == userId &&
+                t.CreatedAt >= fromDate)
             .OrderByDescending(t => t.CreatedAt)
             .Select(t => new TransactionHistoryModel
             {
@@ -63,6 +77,8 @@ public class TransactionService : ITransactionService
                 Description = t.Description,
                 CreatedAt = t.CreatedAt
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
+
+
 }

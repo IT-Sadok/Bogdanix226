@@ -21,6 +21,9 @@ builder.Services.AddIdentityConfiguration();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserContext, UserContext>();
+
 
 var app = builder.Build();
 
