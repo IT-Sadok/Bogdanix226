@@ -1,11 +1,5 @@
 ﻿namespace Finly.Entities;
 
-public enum TransactionType
-{
-    Income = 1,
-    Expense = 2
-}
-
 public class Transaction
 {
     public int Id { get; set; }

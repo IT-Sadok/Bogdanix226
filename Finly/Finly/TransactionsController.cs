@@ -31,7 +31,7 @@ public class TransactionsController : ControllerBase
             _userContext.UserId,
             cancellationToken);
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
@@ -44,7 +44,7 @@ public class TransactionsController : ControllerBase
             _userContext.UserId,
             cancellationToken);
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpGet("history")]

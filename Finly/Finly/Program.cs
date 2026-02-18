@@ -1,6 +1,8 @@
 using Finly;
 using Finly.DTO;
 using Finly.Extensions;
+using Finly.Interfaces;
+using Finly.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MyProject.Data;
 
@@ -20,10 +22,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentityConfiguration();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserContext, UserContext>();
-
 
 var app = builder.Build();
 
