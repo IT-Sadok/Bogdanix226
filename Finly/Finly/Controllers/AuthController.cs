@@ -1,5 +1,4 @@
-﻿using Finly.DTO;
-using Finly.Entities;
+﻿using Finly.Entities;
 using Finly.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

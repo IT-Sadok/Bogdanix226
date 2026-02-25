@@ -38,12 +38,15 @@ public class TransactionRepository : ITransactionRepository
     public async Task AddAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         await _context.Transactions.AddAsync(transaction, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         _context.Transactions.Remove(transaction);
+    }
+    
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
+    {
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

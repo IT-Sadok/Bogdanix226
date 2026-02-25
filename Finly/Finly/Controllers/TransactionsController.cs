@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Finly.DTO;
+﻿using Finly.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,14 +10,10 @@ namespace Finly;
 public class TransactionsController : ControllerBase
 {
     private readonly ITransactionService _service;
-    private readonly IUserContext _userContext;
 
-    public TransactionsController(
-        ITransactionService service,
-        IUserContext userContext)
+    public TransactionsController(ITransactionService service)
     {
         _service = service;
-        _userContext = userContext;
     }
 
     [HttpPost]
@@ -28,7 +23,6 @@ public class TransactionsController : ControllerBase
     {
         await _service.AddTransactionAsync(
             model,
-            _userContext.UserId,
             cancellationToken);
 
         return NoContent();
@@ -41,7 +35,6 @@ public class TransactionsController : ControllerBase
     {
         await _service.DeleteTransactionAsync(
             id,
-            _userContext.UserId,
             cancellationToken);
 
         return NoContent();
@@ -55,7 +48,6 @@ public class TransactionsController : ControllerBase
         var fromDate = DateTime.UtcNow.AddMonths(-months);
 
         var result = await _service.GetHistoryAsync(
-            _userContext.UserId,
             fromDate,
             cancellationToken);
 

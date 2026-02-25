@@ -1,4 +1,4 @@
-﻿namespace Finly.DTO;
+﻿using Finly.Models;
 
 public class LoginModel
 {

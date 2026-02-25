@@ -1,7 +1,7 @@
 using Finly;
-using Finly.DTO;
 using Finly.Extensions;
 using Finly.Interfaces;
+using Finly.Models;
 using Finly.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MyProject.Data;

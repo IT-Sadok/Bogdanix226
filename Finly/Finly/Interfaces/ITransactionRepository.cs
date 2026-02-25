@@ -9,4 +9,5 @@ public interface ITransactionRepository
     Task<List<Transaction>> GetTransactionsByUserIdAsync(int userId, DateTime fromDate, CancellationToken cancellationToken);
     Task AddAsync(Transaction transaction, CancellationToken cancellationToken);
     Task DeleteAsync(Transaction transaction, CancellationToken cancellationToken);
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

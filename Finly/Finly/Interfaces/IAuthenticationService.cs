@@ -1,7 +1,4 @@
-﻿using Finly.DTO;
-
-namespace Finly.Models;
-
+﻿using Finly.Models;
 
 public interface IAuthenticationService
 {

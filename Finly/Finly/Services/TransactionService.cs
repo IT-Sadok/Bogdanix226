@@ -1,4 +1,4 @@
-﻿using Finly.DTO;
+﻿using Finly.Models;
 using Finly.Entities;
 using Finly.Interfaces;
 
@@ -6,19 +6,28 @@ namespace Finly;
 
 public class TransactionService : ITransactionService
 {
-    private readonly ITransactionRepository _repository;
+    private readonly ITransactionRepository _transactionRepository;
+    private readonly IAccountRepository _accountRepository;
+    private readonly IUserContext _userContext;
 
-    public TransactionService(ITransactionRepository repository)
+    public TransactionService(
+        ITransactionRepository transactionRepository,
+        IAccountRepository accountRepository,
+        IUserContext userContext)
     {
-        _repository = repository;
+        _transactionRepository = transactionRepository;
+        _accountRepository = accountRepository;
+        _userContext = userContext;
     }
 
     public async Task AddTransactionAsync(
         CreateTransactionModel model,
-        int userId,
         CancellationToken cancellationToken)
     {
-        var account = await _repository.GetAccountByUserIdAsync(userId, cancellationToken);
+        var userId = _userContext.UserId;
+        
+        var account = await _accountRepository
+            .GetByUserIdAsync(userId, cancellationToken);
 
         if (account == null)
             throw new Exception("Account not found");
@@ -32,28 +41,32 @@ public class TransactionService : ITransactionService
             AccountId = account.Id
         };
 
-        await _repository.AddAsync(transaction, cancellationToken);
+        await _transactionRepository.AddAsync(transaction, cancellationToken);
+        await _transactionRepository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteTransactionAsync(
         int transactionId,
-        int userId,
         CancellationToken cancellationToken)
     {
-        var transaction = await _repository.GetTransactionByIdAndUserIdAsync(transactionId, userId, cancellationToken);
+        var userId = _userContext.UserId;
+        
+        var transaction = await _transactionRepository.GetTransactionByIdAndUserIdAsync(transactionId, userId, cancellationToken);
 
         if (transaction == null)
             throw new Exception("Transaction not found");
 
-        await _repository.DeleteAsync(transaction, cancellationToken);
+        await _transactionRepository.DeleteAsync(transaction, cancellationToken);
+        await _transactionRepository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<List<TransactionHistoryModel>> GetHistoryAsync(
-        int userId,
         DateTime fromDate,
         CancellationToken cancellationToken)
     {
-        var transactions = await _repository.GetTransactionsByUserIdAsync(userId, fromDate, cancellationToken);
+        var userId = _userContext.UserId;
+        
+        var transactions = await _transactionRepository.GetTransactionsByUserIdAsync(userId, fromDate, cancellationToken);
 
         return transactions.Select(t => new TransactionHistoryModel
         {
