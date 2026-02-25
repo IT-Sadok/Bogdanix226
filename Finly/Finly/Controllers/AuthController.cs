@@ -28,4 +28,12 @@ public class AuthController : ControllerBase
 
         return Ok(response);
     }
+    
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterModel model)
+    {
+        await _authService.Register(model);
+
+        return NoContent();
+    }
 }

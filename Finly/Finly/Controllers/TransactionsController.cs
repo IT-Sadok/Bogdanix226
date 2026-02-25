@@ -1,4 +1,5 @@
 ﻿using Finly.Models;
+using Finly.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +22,9 @@ public class TransactionsController : ControllerBase
         CreateTransactionModel model,
         CancellationToken cancellationToken)
     {
-        await _service.AddTransactionAsync(
-            model,
-            cancellationToken);
+        var id = await _service.AddTransactionAsync(model,cancellationToken);
 
-        return NoContent();
+        return Created($"api/transactions/{id}", null);
     }
 
     [HttpDelete("{id}")]

@@ -20,7 +20,7 @@ public class TransactionService : ITransactionService
         _userContext = userContext;
     }
 
-    public async Task AddTransactionAsync(
+    public async Task<int> AddTransactionAsync(
         CreateTransactionModel model,
         CancellationToken cancellationToken)
     {
@@ -43,6 +43,8 @@ public class TransactionService : ITransactionService
 
         await _transactionRepository.AddAsync(transaction, cancellationToken);
         await _transactionRepository.SaveChangesAsync(cancellationToken);
+        
+        return transaction.Id;
     }
 
     public async Task DeleteTransactionAsync(
