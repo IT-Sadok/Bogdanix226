@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Finly.DTO;
+namespace Finly.Models;
 
 public class AuthTokenModel
 {

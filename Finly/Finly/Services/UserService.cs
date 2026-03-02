@@ -1,4 +1,4 @@
-﻿using Finly.DTO;
+﻿using Finly.Models;
 using Finly.Entities;
 using Microsoft.AspNetCore.Identity;
 
