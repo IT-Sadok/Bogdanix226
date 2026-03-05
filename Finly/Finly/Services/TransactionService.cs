@@ -77,7 +77,7 @@ public class TransactionService : ITransactionService
             Amount = t.Amount,
             Type = t.Type.ToString(),
             Description = t.Description,
-            Category = t.Category.Name,
+            CategoryName = t.Category.Name,
             CreatedAt = t.CreatedAt
         }).ToList();
     }
