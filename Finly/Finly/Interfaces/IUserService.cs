@@ -1,6 +1,4 @@
-﻿using Finly.DTO;
-
-namespace Finly;
+﻿using Finly.Models;
 
 public interface IUserService
 {

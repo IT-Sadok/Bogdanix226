@@ -14,4 +14,5 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     }
 
     public DbSet<Account> Accounts => Set<Account>();
+    public DbSet<Transaction> Transactions => Set<Transaction>();
 }
