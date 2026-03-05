@@ -38,7 +38,8 @@ public class TransactionService : ITransactionService
             Type = (TransactionType)model.Type,
             Description = model.Description,
             CreatedAt = DateTime.UtcNow,
-            AccountId = account.Id
+            AccountId = account.Id,
+            CategoryId = model.CategoryId
         };
 
         await _transactionRepository.AddAsync(transaction, cancellationToken);
@@ -76,6 +77,7 @@ public class TransactionService : ITransactionService
             Amount = t.Amount,
             Type = t.Type.ToString(),
             Description = t.Description,
+            CategoryName = t.Category.Name,
             CreatedAt = t.CreatedAt
         }).ToList();
     }
