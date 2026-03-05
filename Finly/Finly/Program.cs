@@ -1,4 +1,5 @@
 using Finly;
+using Finly.Data;
 using Finly.Extensions;
 using Finly.Interfaces;
 using Finly.Models;
@@ -49,5 +50,12 @@ app.MapPost("sign-up", async (
 {
     return await userService.RegisterUserAsync(model);
 });
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    await Seed.SeedAsync(context);
+}
 
 app.Run();

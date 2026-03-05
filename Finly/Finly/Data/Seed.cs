@@ -1,18 +1,29 @@
 ﻿using Finly.Entities;
 using Microsoft.EntityFrameworkCore;
+using MyProject.Data;
 
-namespace Finly.Data.Seed;
+namespace Finly.Data;
 
-public static class CategorySeed
+public static class Seed
 {
-    public static void Seed(ModelBuilder modelBuilder)
+    public static async Task SeedAsync(AppDbContext context)
     {
-        modelBuilder.Entity<Category>().HasData(
-            new Category { Id = 1, Name = "Food" },
-            new Category { Id = 2, Name = "Transport" },
-            new Category { Id = 3, Name = "Subscriptions" },
-            new Category { Id = 4, Name = "Entertainment" },
-            new Category { Id = 5, Name = "Health" }
-        );
+        if (await context.Categories.AnyAsync())
+            return;
+
+        var categories = new List<Category>
+        {
+            new Category { Name = "Food" },
+            new Category { Name = "Transport" },
+            new Category { Name = "Restaurant" },
+            new Category { Name = "Cinema" },
+            new Category { Name = "Health" },
+            new Category { Name = "Entertainment" },
+            new Category { Name = "Electronics" },
+            new Category { Name = "Utilities" }
+        };
+
+        context.Categories.AddRange(categories);
+        await context.SaveChangesAsync();
     }
 }
